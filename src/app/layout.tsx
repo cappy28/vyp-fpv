@@ -1,78 +1,32 @@
-import type { Metadata } from "next";
-import { Rajdhani, Inter, JetBrains_Mono } from "next/font/google";
-import "./globals.css";
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
+import Link from "next/link";
+import { LayoutDashboard, Package, ShoppingBag, Users } from "lucide-react";
 
-const rajdhani = Rajdhani({
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
-  variable: "--font-rajdhani",
-  display: "swap",
-});
+const LINKS = [
+  { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/admin/produits", label: "Produits", icon: Package },
+  { href: "/admin/commandes", label: "Commandes", icon: ShoppingBag },
+  { href: "/admin/utilisateurs", label: "Utilisateurs", icon: Users },
+];
 
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap",
-});
-
-const mono = JetBrains_Mono({
-  subsets: ["latin"],
-  weight: ["400", "500"],
-  variable: "--font-mono",
-  display: "swap",
-});
-
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://vyp-fpv.vercel.app";
-
-export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
-  title: {
-    default: "VYP FPV — Accessoires FPV premium",
-    template: "%s | VYP FPV",
-  },
-  description:
-    "VYP FPV est la boutique specialisee dans les accessoires pour drones FPV : sangles LiPo, protections, antennes, outils et organisation. Livraison rapide en France.",
-  keywords: [
-    "FPV",
-    "drone",
-    "accessoires FPV",
-    "sangle LiPo",
-    "antenne FPV",
-    "goggles FPV",
-    "racing drone",
-  ],
-  openGraph: {
-    type: "website",
-    locale: "fr_FR",
-    siteName: "VYP FPV",
-    title: "VYP FPV — Accessoires FPV premium",
-    description:
-      "Sangles LiPo, protections, antennes, outils et organisation pour pilotes FPV.",
-    url: siteUrl,
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "VYP FPV — Accessoires FPV premium",
-    description:
-      "Sangles LiPo, protections, antennes, outils et organisation pour pilotes FPV.",
-  },
-  robots: { index: true, follow: true },
-};
-
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" className={`dark ${rajdhani.variable} ${inter.variable} ${mono.variable}`}>
-      <body className="flex min-h-screen flex-col">
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
-      </body>
-    </html>
+    <div className="mx-auto flex max-w-7xl flex-col gap-8 px-4 py-10 md:flex-row md:px-8 md:py-14">
+      <aside className="shrink-0 md:w-56">
+        <p className="text-mono-label text-copper">Zone admin</p>
+        <nav className="mt-4 flex gap-1 overflow-x-auto md:flex-col md:overflow-visible">
+          {LINKS.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="flex shrink-0 items-center gap-2.5 border border-hairline px-4 py-2.5 text-sm text-ink-muted transition hover:border-signal/40 hover:text-signal md:border-0 md:px-2 md:py-2"
+            >
+              <link.icon className="h-4 w-4" />
+              {link.label}
+            </Link>
+          ))}
+        </nav>
+      </aside>
+      <div className="min-w-0 flex-1">{children}</div>
+    </div>
   );
 }
