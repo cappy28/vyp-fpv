@@ -1,0 +1,93 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-hairline;
+  }
+
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-void text-ink font-body antialiased;
+    background-image: radial-gradient(
+      120% 60% at 50% -10%,
+      rgba(63, 215, 224, 0.06) 0%,
+      rgba(10, 12, 16, 0) 60%
+    );
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-display tracking-wide;
+  }
+
+  ::selection {
+    background: rgba(63, 215, 224, 0.25);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid #3fd7e0;
+    outline-offset: 2px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0a0c10;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #23272f;
+    border-radius: 999px;
+  }
+}
+
+@layer utilities {
+  .reticle {
+    position: relative;
+  }
+  .reticle::before,
+  .reticle::after {
+    content: "";
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border-color: theme("colors.signal.DEFAULT");
+    opacity: 0.7;
+    pointer-events: none;
+  }
+  .reticle::before {
+    top: -1px;
+    left: -1px;
+    border-top: 1.5px solid;
+    border-left: 1.5px solid;
+  }
+  .reticle::after {
+    bottom: -1px;
+    right: -1px;
+    border-bottom: 1.5px solid;
+    border-right: 1.5px solid;
+  }
+
+  .text-mono-label {
+    @apply font-mono text-[11px] uppercase tracking-[0.18em] text-ink-muted;
+  }
+
+  .glass {
+    background: rgba(18, 21, 28, 0.72);
+    backdrop-filter: blur(14px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
